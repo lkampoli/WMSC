@@ -1,0 +1,25 @@
+#!/bin/bash
+
+#BATCH --job-name="kOmegaSSTx_clustering"
+#SBATCH --partition=physical
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --time=00:10:00
+#SBATCH --mem=1GB  
+#SBATCH --export=NONE
+
+source /usr/local/module/spartan_old.sh
+module load OpenFOAM/2.4.0-intel-2017.u2
+source $FOAM_BASH
+
+export CRAYPE_LINK_TYPE=dynamic
+
+cd ${SLURM_SUBMIT_DIR}
+wclean > log.wclean
+wmake > log.wmake
+
+##  For compiling turbulence models on Magnus, please follow these steps:
+##  1) salloc --partition=debugq --time=00:30:00 --nodes=1
+##  2) export CRAYPE_LINK_TYPE=dynamic
+##  3) wclean
+##  4) wmake
